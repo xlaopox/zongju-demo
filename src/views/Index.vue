@@ -22,10 +22,10 @@
                 </div>
             </container>
             <container :title="page.left.block2.title" class=" full-width h-1-4">
-                <div class="h-3-10">
+                <div class="h-1-6">
                     <GroupJingZheng :data="page.left.block2.text"/>
                 </div>
-                <div class="h-7-10">
+                <div class="h-5-6">
                     <div class="full-height w-1-2">
                         <ChartAreaLine :data="page.left.block2.chart1.data"
                                        :title="page.left.block2.chart1.title"
@@ -49,20 +49,23 @@
                 </div>
             </container>
             <container :title="page.left.block3.title" class=" full-width h-1-4">
-                <div class="h-3-10">
-                    <GroupJingZheng :data="page.left.block3.text"/>
+                <div class="w-1-2 full-height">
+                    字符云
                 </div>
-                <div class="h-7-10">
-                    <div class="full-height w-1-2">
-                        字符云
-                    </div>
-                    <div class="full-height w-1-2">
+                <div class="w-1-2 full-height">
+                    <GroupXiaoFei class="h-3-10" :data="page.left.block3.text"/>
+                    <div class="h-7-10">
                         <ChartPieCircle :title="page.left.block3.chart1.title" :data="page.left.block3.chart1.data"/>
                     </div>
                 </div>
             </container>
-            <container :title="page.titles.left[3]" class=" full-width h-1-4">
-                <ChartLineSimple class="w-3-4" :xdata="page.chart1.xdata" :ydata="page.chart1.ydata"/>
+            <container :title="page.left.block4.title" class=" full-width h-1-4">
+                <div class="full-height w-3-10">
+                    <BlockChanQuan :data="page.left.block4.text1"/>
+                </div>
+                <div class="full-height w-7-10">
+                    <GroupChanQuan :data="page.left.block4.text2"/>
+                </div>
             </container>
         </div>
         <div class="center full-height  w-1-3">
@@ -80,7 +83,11 @@
         </div>
         <div class="side full-height w-1-3">
             <container title="标题" class=" full-width h-1-4">
-                内容
+                <GroupContainer :data="[1,2,3,4]">
+                    <template v-slot:item="{item}">
+                        {{item}}
+                    </template>
+                </GroupContainer>
             </container>
             <container title="标题" class=" full-width h-1-4">
                 内容
@@ -89,7 +96,7 @@
                 内容
             </container>
             <container title="标题" class=" full-width h-1-4">
-                内容
+                <ChartLineSimple class="w-3-4" :xdata="page.chart1.xdata" :ydata="page.chart1.ydata"/>
             </container>
         </div>
     </div>
@@ -110,10 +117,16 @@ import Map3D from './components/Map3D'
 import GroupJingZheng from './components/GroupJingZheng'
 import ChartAreaLine from './components/ChartAreaLine'
 import ChartPieCircle from './components/ChartPieCircle'
+import GroupXiaoFei from './components/GroupXiaoFei'
+import BlockChanQuan from './components/BlockChanQuan'
+import GroupChanQuan from './components/GroupChanQuan'
 
 export default {
   name: 'Index',
   components: {
+    GroupChanQuan,
+    BlockChanQuan,
+    GroupXiaoFei,
     ChartPieCircle,
     ChartAreaLine,
     GroupJingZheng,
@@ -231,20 +244,11 @@ export default {
           block2: {
             title: '竞争环境',
             text: [{
-              title: '公平竞争审查',
-              value: '215',
-              unit: '万次'
-            }, {
               title: '不正当竞争案件',
               value: '13',
               unit: '万件',
               per: '15%',
               trend: 'up'
-            }, {
-              title: '打击传销规范直销',
-              name: '预警',
-              value: '3018',
-              unit: '次'
             }, {
               title: '反垄断案件',
               value: '306',
@@ -367,10 +371,26 @@ export default {
           },
           block3: {
             title: '消费环境',
-            text: [],
+            text: [
+              {
+                title: '投诉举报总量',
+                value: '4501',
+                unit: '万次',
+                trend: '8.7%',
+                status: 'down'
+              },
+              {
+                title: '办结率',
+                value: '100%'
+              },
+              {
+                title: '诉转率',
+                value: '100%'
+              }
+            ],
             chart1: {
               title: '投诉举报热点分析',
-              data: [{
+              data: [[{
                 name: '烟、酒和饮料',
                 value: Mock.Random.natural(60, 100),
                 trend: Mock.Random.float(0.1, 0.5, 2, 2),
@@ -390,8 +410,95 @@ export default {
                 value: Mock.Random.natural(60, 100),
                 trend: Mock.Random.float(0.1, 0.5, 2, 2),
                 status: 'up'
-              }]
+              }], [{
+                name: '烟、酒和饮料',
+                value: Mock.Random.natural(60, 100),
+                trend: Mock.Random.float(0.1, 0.5, 2, 2),
+                status: 'up'
+              }, {
+                name: '食品',
+                value: Mock.Random.natural(60, 100),
+                trend: Mock.Random.float(0.1, 0.5, 2, 2),
+                status: 'down'
+              }, {
+                name: '日用商品',
+                value: Mock.Random.natural(60, 100),
+                trend: Mock.Random.float(0.1, 0.5, 2, 2),
+                status: '-'
+              }, {
+                name: '医疗及医疗用品',
+                value: Mock.Random.natural(60, 100),
+                trend: Mock.Random.float(0.1, 0.5, 2, 2),
+                status: 'up'
+              }]]
             }
+          },
+          block4: {
+            title: '知识产权',
+            text1: [{
+              name: '发展指数',
+              value: '62.6'
+            }, {
+              name: '国际排行',
+              text: '上升至',
+              from: '13',
+              to: '8'
+            }],
+            text2: [{
+              icon: 'T!',
+              name: '商品注册',
+              value: '198',
+              unit: '万件',
+              top: {
+                name: '较去年同期',
+                value: '25%',
+                unit: '',
+                status: 'up'
+              },
+              bottom: {
+                name: '审查时限',
+                value: '9',
+                unit: '个月',
+                trend: '10%',
+                status: 'down'
+              }
+            }, {
+              icon: 'T@',
+              name: '地理标志',
+              value: '2320',
+              unit: '个',
+              top: {
+                name: '地理标志产品',
+                value: '25',
+                unit: '项',
+                status: ''
+              },
+              bottom: {
+                name: '打假维权',
+                value: '20',
+                unit: '件',
+                trend: '16%',
+                status: 'down'
+              }
+            }, {
+              icon: 'T#',
+              name: '专利',
+              value: '283',
+              unit: '万件',
+              top: {
+                name: '同比增长',
+                value: '10',
+                unit: '',
+                status: 'up'
+              },
+              bottom: {
+                name: '审查时限',
+                value: '12',
+                unit: '个月',
+                trend: '8%',
+                status: 'down'
+              }
+            }]
           }
         },
         chart1: {
